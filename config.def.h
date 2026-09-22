@@ -177,15 +177,15 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_period,      focusmon,         {.i = WLR_DIRECTION_RIGHT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,        tagmon,           {.i = WLR_DIRECTION_LEFT} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,     tagmon,           {.i = WLR_DIRECTION_RIGHT} },
-	TAGKEYS(          XKB_KEY_1, XKB_KEY_exclam,                        0),
-	TAGKEYS(          XKB_KEY_2, XKB_KEY_at,                            1),
-	TAGKEYS(          XKB_KEY_3, XKB_KEY_numbersign,                    2),
-	TAGKEYS(          XKB_KEY_4, XKB_KEY_dollar,                        3),
-	TAGKEYS(          XKB_KEY_5, XKB_KEY_percent,                       4),
-	TAGKEYS(          XKB_KEY_6, XKB_KEY_asciicircum,                   5),
-	TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                     6),
-	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                      7),
-	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                     8),
+	TAGKEYS(XKB_KEY_1, 0),
+	TAGKEYS(XKB_KEY_2, 1),
+	TAGKEYS(XKB_KEY_3, 2),
+	TAGKEYS(XKB_KEY_4, 3),
+	TAGKEYS(XKB_KEY_5, 4),
+	TAGKEYS(XKB_KEY_6, 5),
+	TAGKEYS(XKB_KEY_7, 6),
+	TAGKEYS(XKB_KEY_8, 7),
+	TAGKEYS(XKB_KEY_9, 8),
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_e,           quit,             {0} },
 
 	/* Ctrl-Alt-Backspace and Ctrl-Alt-Fx used to be handled by X server */
@@ -216,6 +216,6 @@ static const Axis axes[] = {
 	/* example of volume control:
 	{ MODKEY, AxisUp,   spawn, SHCMD("volume-up_EXAMPLE") },
 	{ MODKEY, AxisDown, spawn, SHCMD("volume-down_EXAMPLE") }, */
-	{ 0, 0, NULL, {0} },
+	{ 0, 0, 0, NULL, {0} },
 	/* does nothing, but the array cannot be empty */
 };

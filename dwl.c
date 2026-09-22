@@ -119,6 +119,7 @@ typedef struct {
 } Axis;
 
 typedef struct {
+	unsigned int click;
 	unsigned int mod;
 	unsigned int button;
 	void (*func)(const Arg *);
@@ -872,7 +873,7 @@ buttonpress(struct wl_listener *listener, void *data)
 		if (locked)
 			break;
 
-		if (!c && !exclusive_focus &&
+		if (!c &&
 			(node = wlr_scene_node_at(&layers[LyrBottom]->node, cursor->x, cursor->y, NULL, NULL)) &&
 			(buffer = wlr_scene_buffer_from_node(node)) && buffer == selmon->scene_buffer) {
 			cx = (cursor->x - selmon->m.x) * selmon->wlr_output->scale;
@@ -1884,7 +1885,7 @@ focusclient(Client *c, LayerSurface *l, int lift)
 		if (!(old_l && old_l->layer_surface->current.keyboard_interactive == ZWLR_LAYER_SURFACE_V1_KEYBOARD_INTERACTIVITY_EXCLUSIVE)
 				&& !(old_c && client_wants_focus(old_c))
 				&& !seat->drag)
-			client_set_border_color(c, focuscolor);
+			client_set_border_color(c, (float[])COLOR(colors[SchemeSel][ColBorder]));
         if (c->ishidden) {
             c->tempshow = 1;
             c->ishidden = 0;
@@ -1905,7 +1906,8 @@ focusclient(Client *c, LayerSurface *l, int lift)
 	if (focused_client && focused_client != c && !(c && client_is_unmanaged(c))) {
 		struct wlr_surface *s = client_surface(focused_client);
 		if (c)
-			client_set_border_color(focused_client, bordercolor);
+			client_set_border_color(focused_client,
+					(float[])COLOR(colors[SchemeNorm][ColBorder]));
 		if (s && s->mapped)
 			client_activate_surface(s, 0);
 		focused_client = NULL;
@@ -2075,7 +2077,7 @@ hide(const Arg *arg)
     if (!c->ishidden && !c->tempshow) {
         c->ishidden = 1;
         arrange(c->mon);
-        focusclient(focustop(c->mon), 1);
+		focusclient(focustop(c->mon), NULL, 1);
     }
 }
 
@@ -3254,7 +3256,7 @@ showall(const Arg *arg)
             }
 
     arrange(selmon);
-    focusclient(focustop(selmon), 1);
+	focusclient(focustop(selmon), NULL, 1);
 }
 
 void
@@ -3527,7 +3529,7 @@ togglewin(const Arg *arg)
             c->ishidden = 1;
             c->tempshow = 0;
             arrange(c->mon);
-            focusclient(focustop(c->mon), 1);
+			focusclient(focustop(c->mon), NULL, 1);
         }
     } else {
         if (c->ishidden) {
@@ -3535,7 +3537,7 @@ togglewin(const Arg *arg)
             c->tempshow = 0;
             arrange(c->mon);
         }
-        focusclient(c, 1);
+		focusclient(c, NULL, 1);
     }
 }
 
@@ -3840,7 +3842,7 @@ void
 xytonode(double x, double y, struct wlr_surface **psurface,
 		Client **pc, LayerSurface **pl, double *nx, double *ny)
 {
-	struct wlr_scene_node *node;
+	struct wlr_scene_node *node, *pnode;
 	struct wlr_surface *surface = NULL;
 	struct wlr_scene_surface *scene_surface = NULL;
 	Client *c = NULL;

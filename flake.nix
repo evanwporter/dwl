@@ -30,7 +30,7 @@
 								pixman
 								wayland
 								wayland-protocols
-								wlroots_0_19
+								wlroots_0_20
 								wlr-randr
 								xwayland
 								libdrm
