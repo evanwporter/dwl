@@ -23,6 +23,9 @@ dwl: dwl.c client.h config.h ime.h util.h config.mk cursor-shape-v1-protocol.h \
 	wlr-output-power-management-unstable-v1-protocol.h xdg-shell-protocol.h
 	$(CC) dwl.c $(DWLCFLAGS) $(LDFLAGS) $(LDLIBS) -o $@
 
+compile_commands:
+	bear --output compile_commands.json -- make clean all
+
 # wayland-scanner is a tool which generates C headers and rigging for Wayland
 # protocols, which are specified in XML. wlroots requires you to rig these up
 # to your build system yourself and provide them in the include path.
